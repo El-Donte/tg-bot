@@ -3,7 +3,6 @@ import datetime
 from telegram.ext import Application, CommandHandler, ContextTypes
 from telegram import Update
 import os
-from dotenv import load_dotenv, dotenv_values
 
 async def callback_alarm(context) -> None:
     chat_id = context.job.data
@@ -33,7 +32,6 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
     )
 
 def main() -> None:
-    load_dotenv()
     token = os.getenv("BOT_TOKEN")
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
