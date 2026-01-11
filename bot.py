@@ -24,6 +24,7 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     msg = update.message
     text = update.message.text.lower() if update.message.text else ""
+    chat_id = update.effective_chat.id
 
     try:
         username = msg.from_user.username if msg.from_user.username else ""
@@ -41,9 +42,9 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if "я" == text:
             await update.message.reply_text("Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
         if "макан" == text:
-            await update.message.reply_text("Хуесос  ┌∩┐(◣_◢)┌∩┐")
+            await context.bot.send_message(chat_id,"Хуесос  ┌∩┐(◣_◢)┌∩┐")
         if "рома" in text or "ромчик" in text:
-            await update.message.reply_text("Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
+            await context.bot.send_message(chat_id,"Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
@@ -57,14 +58,14 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     animation=jaba_id,
                     reply_to_message_id=msg.message_id
                 )
-
-        if msg.sticker:
-            sticker = msg.sticker
-
-            await msg.reply_sticker(
-                sticker=sticker.file_id,
-                reply_to_message_id=msg.message_id
-            )
+        #
+        # if msg.sticker:
+        #     sticker = msg.sticker
+        #
+        #     await msg.reply_sticker(
+        #         sticker=sticker.file_id,
+        #         reply_to_message_id=msg.message_id
+        #     )
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
