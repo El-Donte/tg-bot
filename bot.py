@@ -12,7 +12,8 @@ EMOJIS = {
     "Y14_5r" : ReactionEmoji.PILL,
     "mr4ckkk": ReactionEmoji.ALIEN_MONSTER,
     "I6573859": ReactionEmoji.BANANA,
-    "eI_donte": ReactionEmoji.HOT_DOG
+    "eI_donte": ReactionEmoji.SPOUTING_WHALE,
+    "roma_kaurcev": ReactionEmoji.HOT_DOG,
 }
 
 jaba_id = "CgACAgQAAx0CYjMl9wABAbxqaV0_tuGGHH3-73ECfAGQ9ggM4hoAAjMEAAIvULVTUGEmWUs7wUk4BA"
@@ -39,6 +40,10 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         if "я" == text:
             await update.message.reply_text("Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
+        if "макан" == text:
+            await update.message.reply_text("Хуесос  ┌∩┐(◣_◢)┌∩┐")
+        if "рома" in text or "ромчик" in text:
+            await update.message.reply_text("Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
