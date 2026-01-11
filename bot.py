@@ -43,8 +43,9 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
         if "макан" == text:
             await context.bot.send_message(chat_id,"Хуесос  ┌∩┐(◣_◢)┌∩┐")
-        if "рома" in text or "ромчик" in text:
+        if "рома" in text or "ромчик" in text or "@roma_kaurcev" in text:
             await context.bot.send_message(chat_id,"Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
+
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
@@ -58,14 +59,14 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     animation=jaba_id,
                     reply_to_message_id=msg.message_id
                 )
-        #
-        # if msg.sticker:
-        #     sticker = msg.sticker
-        #
-        #     await msg.reply_sticker(
-        #         sticker=sticker.file_id,
-        #         reply_to_message_id=msg.message_id
-        #     )
+
+        if msg.sticker:
+            sticker = msg.sticker
+
+            await msg.reply_sticker(
+                sticker=sticker.file_id,
+                reply_to_message_id=msg.message_id
+            )
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
