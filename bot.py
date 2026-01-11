@@ -1,48 +1,148 @@
 import datetime
 
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.constants import ReactionEmoji
+from telegram.ext import Application, filters, CommandHandler, ContextTypes, MessageHandler
 from telegram import Update
 import os
 
+CHATS = []
+
+EMOJIS = {
+    "zxc_chmo" : ReactionEmoji.NAIL_POLISH,
+    "Y14_5r" : ReactionEmoji.PILL,
+    "mr4ckkk": ReactionEmoji.ALIEN_MONSTER,
+    "I6573859": ReactionEmoji.BANANA,
+    "eI_donte": ReactionEmoji.HOT_DOG
+}
+
+jaba_id = "CgACAgQAAx0CYjMl9wABAbxqaV0_tuGGHH3-73ECfAGQ9ggM4hoAAjMEAAIvULVTUGEmWUs7wUk4BA"
+
+async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.is_bot:
+        return
+
+    msg = update.message
+    text = update.message.text.lower() if update.message.text else ""
+
+    try:
+        username = msg.from_user.username if msg.from_user.username else ""
+        if EMOJIS.keys().__contains__(username):
+            await context.bot.set_message_reaction(
+                chat_id=msg.chat_id,
+                message_id=msg.message_id,
+                reaction=[EMOJIS[username]],
+                is_big=False
+            )
+    except Exception as e:
+        print(f"Не удалось поставить реакцию: {e}")
+
+    try:
+        if "я" == text:
+            await update.message.reply_text("Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
+    except Exception as e:
+        print(f"Не удалось ответить: {e}")
+
+async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    msg = update.message
+
+    try:
+        if msg.animation:
+            if msg.animation.file_id == jaba_id:
+                await msg.reply_animation(
+                    animation=jaba_id,
+                    reply_to_message_id=msg.message_id
+                )
+
+        if msg.sticker:
+            sticker = msg.sticker
+
+            await msg.reply_sticker(
+                sticker=sticker.file_id,
+                reply_to_message_id=msg.message_id
+            )
+    except Exception as e:
+        print(f"Не удалось ответить: {e}")
+
 async def callback_alarm(context) -> None:
     chat_id = context.job.data
-    await context.bot.send_message(
-        chat_id=chat_id,
-        text="/pidor@SublimeBot"
-    )
+
+    try:
+        if not list.__contains__(chat_id):
+            return
+
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="/pidor@SublimeBot"
+        )
+    except Exception as e:
+        print(f"Не удалось ответить: {e}")
 
 async def fuck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
-    await context.bot.send_message(
-        chat_id=chat_id,
-        text="Пошел нахуй"
-    )
+
+    try:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="Пошел нахуй"
+        )
+    except Exception as e:
+        print(f"Не удалось ответить: {e}")
+
+async def suck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = update.effective_chat.id
+
+    try:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="Соси хуй"
+        )
+    except Exception as e:
+        print(f"Не удалось ответить: {e}")
 
 async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
 
-    context.job_queue.run_daily(
-        callback_alarm,
-        time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc),
-        data=chat_id,
-    )
+    try:
+        if list.__contains__(chat_id):
+            return
+        else:
+            list.append(chat_id)
 
-    await update.message.reply_text(
-        "Ежедневный пидор поставлен на 9 утра"
-    )
+        context.job_queue.run_daily(
+            callback_alarm,
+            time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc),
+            data=chat_id,
+        )
+
+        await update.message.reply_text(
+            "Ежедневный пидор поставлен на 9 утра"
+        )
+    except Exception as e:
+        print(f"Не удалось поставить напоминалку: {e}")
 
 def main() -> None:
     token = os.getenv("BOT_TOKEN")
+
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
 
-    application = Application.builder().token(token).build()
+    app = Application.builder().token(token).build()
 
-    application.add_handler(CommandHandler("set_daily_pidor", set_daily_reminder))
-    application.add_handler(CommandHandler("fuck", fuck_func))
+    app.add_handler(CommandHandler("set_daily_pidor", set_daily_reminder))
+    app.add_handler(CommandHandler("fuck", fuck_func))
+    app.add_handler(CommandHandler("suck", suck_func))
 
+    app.add_handler(MessageHandler(
+        filters.TEXT & ~filters.COMMAND,
+        react_on_message
+    ))
 
-    application.run_polling()
+    app.add_handler(MessageHandler(
+        filters.ANIMATION | filters.ATTACHMENT,
+        echo_media
+    ))
+
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
