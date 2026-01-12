@@ -14,6 +14,7 @@ EMOJIS = {
     "I6573859": ReactionEmoji.BANANA,
     "eI_donte": ReactionEmoji.SPOUTING_WHALE,
     "roma_kaurcev": ReactionEmoji.HOT_DOG,
+    "Myp3ikGay": ReactionEmoji.GHOST,
 }
 
 jaba_id = "CgACAgQAAx0CYjMl9wABAbxqaV0_tuGGHH3-73ECfAGQ9ggM4hoAAjMEAAIvULVTUGEmWUs7wUk4BA"
@@ -70,20 +71,6 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
-async def callback_alarm(context) -> None:
-    chat_id = context.job.data
-
-    try:
-        if not list.__contains__(chat_id):
-            return
-
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text="/pidor@SublimeBot"
-        )
-    except Exception as e:
-        print(f"Не удалось ответить: {e}")
-
 async def fuck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
 
@@ -106,14 +93,31 @@ async def suck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
+async def callback_alarm(context) -> None:
+    chat_id = context.job.data
+
+    try:
+        if not CHATS.__contains__(chat_id):
+            return
+
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="/pidor@SublimeBot"
+        )
+    except Exception as e:
+        print(f"Не удалось ответить: {e}")
+
 async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
 
     try:
-        if list.__contains__(chat_id):
+        if CHATS.__contains__(chat_id):
+            await update.message.reply_text(
+                "Ежедневный пидор уже поставлен"
+            )
             return
         else:
-            list.append(chat_id)
+            CHATS.append(chat_id)
 
         context.job_queue.run_daily(
             callback_alarm,
@@ -128,7 +132,7 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
         print(f"Не удалось поставить напоминалку: {e}")
 
 def main() -> None:
-    token = os.getenv("BOT_TOKEN")
+    token = "8389376627:AAH-ZXn-jOSH6tE0n30ajQsKElLDD5Ci8C8"
 
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
