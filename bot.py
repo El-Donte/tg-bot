@@ -8,7 +8,7 @@ import os
 CHATS = []
 
 EMOJIS = {
-    "zxc_chmo" : ReactionEmoji.NAIL_POLISH,
+    "zxc_chmo" : ReactionEmoji.CLOWN_FACE,
     "Y14_5r" : ReactionEmoji.PILL,
     "mr4ckkk": ReactionEmoji.ALIEN_MONSTER,
     "I6573859": ReactionEmoji.BANANA,
@@ -132,7 +132,7 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
         print(f"Не удалось поставить напоминалку: {e}")
 
 def main() -> None:
-    token = "8389376627:AAH-ZXn-jOSH6tE0n30ajQsKElLDD5Ci8C8"
+    token = os.getenv("BOT_TOKEN")
 
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
