@@ -9,7 +9,7 @@ CHATS = []
 
 EMOJIS = {
     "zxc_chmo" : ReactionEmoji.CLOWN_FACE,
-    "Y14_5r" : ReactionEmoji.PILL,
+    "Y14_5r" : ReactionEmoji.UNICORN_FACE,
     "mr4ckkk": ReactionEmoji.ALIEN_MONSTER,
     "I6573859": ReactionEmoji.BANANA,
     "eI_donte": ReactionEmoji.SPOUTING_WHALE,
