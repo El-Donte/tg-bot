@@ -18,6 +18,7 @@ EMOJIS = {
 }
 
 jaba_id = "CgACAgQAAx0CYjMl9wABAbxqaV0_tuGGHH3-73ECfAGQ9ggM4hoAAjMEAAIvULVTUGEmWUs7wUk4BA"
+romchik_id = "AgACAgIAAxkBAAO-aWZ5E9HnkEu_15d1sFkvlr4skFkAAnwSaxttODFLEjpPniWwqSUBAAMCAAN4AAM4BA"
 
 async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.from_user.is_bot:
@@ -44,8 +45,12 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
         if "макан" == text:
             await context.bot.send_message(chat_id,"Хуесос  ┌∩┐(◣_◢)┌∩┐")
-        if "рома" in text or "ромчик" in text or "@roma_kaurcev" in text:
+        if "рома" in text or "ромчик" in text:
             await context.bot.send_message(chat_id,"Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
+        if "@roma_kaurcev" in text:
+            await msg.reply_photo(
+                photo="AgACAgIAAxkBAAO-aWZ5E9HnkEu_15d1sFkvlr4skFkAAnwSaxttODFLEjpPniWwqSUBAAMCAAN4AAM4BA"
+            )
 
     except Exception as e:
         print(f"Не удалось ответить: {e}")
@@ -132,7 +137,7 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
         print(f"Не удалось поставить напоминалку: {e}")
 
 def main() -> None:
-    token = os.getenv("BOT_TOKEN")
+    token = "8389376627:AAH-ZXn-jOSH6tE0n30ajQsKElLDD5Ci8C8"
 
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
