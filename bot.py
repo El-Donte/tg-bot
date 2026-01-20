@@ -5,7 +5,7 @@ from telegram.ext import Application, filters, CommandHandler, ContextTypes, Mes
 from telegram import Update
 import os
 
-CHATS = []
+CHATS = ["-1001647519223"]
 
 EMOJIS = {
     "zxc_chmo" : ReactionEmoji.CLOWN_FACE,
@@ -13,16 +13,56 @@ EMOJIS = {
     "mr4ckkk": ReactionEmoji.ALIEN_MONSTER,
     "I6573859": ReactionEmoji.BANANA,
     "eI_donte": ReactionEmoji.SPOUTING_WHALE,
-    "roma_kaurcev": ReactionEmoji.HOT_DOG,
+    "roma_kaurcev": ReactionEmoji.NAIL_POLISH,
     "Myp3ikGay": ReactionEmoji.GHOST,
 }
 
-jaba_id = "CgACAgQAAx0CYjMl9wABAbxqaV0_tuGGHH3-73ECfAGQ9ggM4hoAAjMEAAIvULVTUGEmWUs7wUk4BA"
-romchik_id = "AgACAgIAAxkBAAO-aWZ5E9HnkEu_15d1sFkvlr4skFkAAnwSaxttODFLEjpPniWwqSUBAAMCAAN4AAM4BA"
+jaba_id = os.getenv("jaba_id")
+tankist = os.getenv("tankist")
+absolute = os.getenv("absolute")
+outtake_lude = os.getenv("outtake_lude")
+zavozik = os.getenv("zavozik")
+sergey = os.getenv("sergey")
+sidzi = os.getenv("sidzi")
+pidarasa = os.getenv("pidarasa")
+operoma = os.getenv("operoma")
+molchun = os.getenv("molchun")
+hay_giler = os.getenv("hay_giler")
+shurupe_benzine = os.getenv("shurupe_benzine")
+sapogi = os.getenv("sapogi")
+pamaty = os.getenv("pamaty")
+AAAA = os.getenv("AAAA")
+pidaras = os.getenv("pidaras")
+advokat = os.getenv("advokat")
+dance = os.getenv("dance")
+
+media = {
+    "@roma_kaurcev" : tankist,
+    "молчун" : molchun,
+    "абсолют" : absolute,
+    "серега" : sergey,
+    "окнутые люди" : outtake_lude,
+    "завозик" : zavozik,
+    "депрессия" : sidzi,
+    "пидарасы" : pidarasa,
+    "хай гитлер" : hay_giler,
+    "шуруп бензин" : shurupe_benzine,
+    "сапоги" : sapogi,
+    "светлая память" : pamaty,
+    "ААААА" : AAAA,
+    "пидарас" : pidaras,
+    "чернобль": operoma,
+    "адвокат": advokat,
+}
+
+send_functions = {
+    'A': lambda bot: bot.send_photo,
+    'B': lambda bot: bot.send_video,
+    'C': lambda bot: bot.send_animation,
+}
+
 
 async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message.from_user.is_bot:
-        return
 
     msg = update.message
     text = update.message.text.lower() if update.message.text else ""
@@ -43,14 +83,18 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         if "я" == text:
             await update.message.reply_text("Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
+
         if "макан" == text:
             await context.bot.send_message(chat_id,"Хуесос  ┌∩┐(◣_◢)┌∩┐")
+
         if "рома" in text or "ромчик" in text:
             await context.bot.send_message(chat_id,"Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
-        if "@roma_kaurcev" in text:
-            await msg.reply_photo(
-                photo="AgACAgIAAxkBAAO-aWZ5E9HnkEu_15d1sFkvlr4skFkAAnwSaxttODFLEjpPniWwqSUBAAMCAAN4AAM4BA"
-            )
+
+        for trigger_word in media.keys():
+            if trigger_word in text:
+                media_id = media[trigger_word]
+                send_method = send_functions[media_id[0]](context.bot)
+                await send_method(chat_id, media_id)
 
     except Exception as e:
         print(f"Не удалось ответить: {e}")
@@ -73,30 +117,47 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 sticker=sticker.file_id,
                 reply_to_message_id=msg.message_id
             )
+
+        if msg.photo:
+            print(msg.photo[-1].file_id)
+
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
 async def fuck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
+    username_part = context.args[0] if len(context.args) == 1 else ""
 
     try:
         await context.bot.send_message(
             chat_id=chat_id,
-            text="Пошел нахуй"
+            text=f"Пошел нахуй {username_part}"
         )
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
 async def suck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
+    username_part = context.args[0] if len(context.args) == 1 else ""
 
     try:
         await context.bot.send_message(
             chat_id=chat_id,
-            text="Соси хуй"
+            text=f"Соси хуй {username_part}"
         )
     except Exception as e:
         print(f"Не удалось ответить: {e}")
+
+async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = update.effective_chat.id
+
+    try:
+        await context.bot.send_video(
+            chat_id=chat_id,
+            video=dance,
+        )
+    except Exception as e:
+        print(f"Не удалось отправить виде: {e}")
 
 async def callback_alarm(context) -> None:
     chat_id = context.job.data
@@ -137,7 +198,7 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
         print(f"Не удалось поставить напоминалку: {e}")
 
 def main() -> None:
-    token = "8389376627:AAH-ZXn-jOSH6tE0n30ajQsKElLDD5Ci8C8"
+    token = os.getenv("BOT_TOKEN")
 
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
@@ -147,6 +208,7 @@ def main() -> None:
     app.add_handler(CommandHandler("set_daily_pidor", set_daily_reminder))
     app.add_handler(CommandHandler("fuck", fuck_func))
     app.add_handler(CommandHandler("suck", suck_func))
+    app.add_handler(CommandHandler("dance", dance_func))
 
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
