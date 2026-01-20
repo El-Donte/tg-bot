@@ -166,6 +166,17 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     except Exception as e:
         print(f"Не удалось отправить виде: {e}")
 
+async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = update.effective_chat.id
+    text = media.keys().__repr__()
+    try:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text = text
+        )
+    except Exception as e:
+        print(f"Не удалось отправить виде: {e}")
+
 async def callback_alarm(context) -> None:
     chat_id = context.job.data
 
@@ -216,6 +227,7 @@ def main() -> None:
     app.add_handler(CommandHandler("fuck", fuck_func))
     app.add_handler(CommandHandler("suck", suck_func))
     app.add_handler(CommandHandler("dance", dance_func))
+    app.add_handler(CommandHandler("list_words", list_words_func))
 
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
