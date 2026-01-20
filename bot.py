@@ -163,7 +163,7 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
 async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
-    lines = ["Триггер       | Тип     |", "--------------|---------|"]
+    lines = ["Триггер        | Тип     |", "---------------|---------|"]
 
     for trigger, (media_type, reply) in sorted(triggers.items()):
         lines.append(f"{trigger:<14} | {media_type if len(media_type) <= 7 else media_type[0 : -1]}")
