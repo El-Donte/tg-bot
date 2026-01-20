@@ -57,8 +57,8 @@ triggers = {
     "адвокат"           : ('video', advokat),
     "педик"             : ('photo', pedick),
     "рома ромчик"       : ('message', "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→"),
-    "макан"             : ('message2', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
-    "я"                 : ('message2', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
+    "макан"             : ('message', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
+    "я"                 : ('message', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
 }
 
 send_functions = {
@@ -90,9 +90,16 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         for trigger, (media_type, reply) in triggers.items():
             if media_type == 'message2':
-                if trigger == text:
-                    await context.bot.send_message(chat_id, reply)
+                words = trigger.split(' ')
+                if len(words) == 1 and trigger == text:
+                    send_method = send_functions[media_type](context.bot)
+                    await send_method(chat_id, reply)
                     break
+                elif any(word in text for word in words):
+                    send_method = send_functions[media_type](context.bot)
+                    await send_method(chat_id, reply)
+                    break
+
             if trigger in text:
                 send_method = send_functions[media_type](context.bot)
                 await send_method(chat_id, reply)
