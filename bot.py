@@ -165,14 +165,15 @@ async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     chat_id = update.effective_chat.id
     lines = ["Триггер       | Тип     |", "--------------|---------|"]
 
-    for trigger, (media_type) in sorted(triggers.items()):
+    for trigger, (media_type, reply) in sorted(triggers.items()):
         lines.append(f"{trigger:<13} | {media_type:<7}")
 
     message = "```\n" + "\n".join(lines) + "\n```"
 
     await context.bot.send_message(
         chat_id=chat_id,
-        text=message
+        text=message,
+        parse_mode="MarkdownV2"
     )
 
 async def callback_alarm(context) -> None:
