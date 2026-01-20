@@ -17,24 +17,25 @@ EMOJIS = {
     "Myp3ikGay": ReactionEmoji.GHOST,
 }
 
-jaba_id = os.getenv("jaba_id")
-tankist = os.getenv("tankist")
-absolute = os.getenv("absolute")
-outtake_lude = os.getenv("outtake_lude")
-zavozik = os.getenv("zavozik")
-sergey = os.getenv("sergey")
-sidzi = os.getenv("sidzi")
-pidarasa = os.getenv("pidarasa")
-operoma = os.getenv("operoma")
-molchun = os.getenv("molchun")
-hay_giler = os.getenv("hay_giler")
-shurupe_benzine = os.getenv("shurupe_benzine")
-sapogi = os.getenv("sapogi")
-pamaty = os.getenv("pamaty")
-AAAA = os.getenv("AAAA")
-pidaras = os.getenv("pidaras")
-advokat = os.getenv("advokat")
-dance = os.getenv("dance")
+
+jaba_id = os.getenv("jaba_id")[1 : -1]
+tankist = os.getenv("tankist")[1 : -1]
+absolute = os.getenv("absolute")[1 : -1]
+outtake_lude = os.getenv("outtake_lude")[1 : -1]
+zavozik = os.getenv("zavozik")[1 : -1]
+sergey = os.getenv("sergey")[1 : -1]
+sidzi = os.getenv("sidzi")[1 : -1]
+pidarasa = os.getenv("pidarasa")[1 : -1]
+operoma = os.getenv("operoma")[1 : -1]
+molchun = os.getenv("molchun")[1 : -1]
+hay_giler = os.getenv("hay_giler")[1 : -1]
+shurupe_benzine = os.getenv("shurupe_benzine")[1 : -1]
+sapogi = os.getenv("sapogi")[1 : -1]
+pamaty = os.getenv("pamaty")[1 : -1]
+AAAA = os.getenv("AAAA")[1 : -1]
+pidaras = os.getenv("pidaras")[1 : -1]
+advokat = os.getenv("advokat")[1 : -1]
+dance = os.getenv("dance")[1 : -1]
 
 media = {
     "@roma_kaurcev" : tankist,
