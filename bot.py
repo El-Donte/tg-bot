@@ -35,11 +35,11 @@ AAAA = os.getenv("AAAA")[1 : -1]
 pidaras = os.getenv("pidaras")[1 : -1]
 advokat = os.getenv("advokat")[1 : -1]
 dance = os.getenv("dance")[1 : -1]
-pedick = "AgACAgIAAxkBAAIBDGlvYKvWPNCzUgUf0bD-Os89fA4ZAALqDGsbhN2AS-c4HUb_ISa2AQADAgADeQADOAQ"
-xyesos = "CAACAgIAAxkBAAMCaW-PUkXhbf9qLFjat2A7pOV1bHUAAjUdAAJ9UKhIUJJ6M3Ok80c4BA"
-xyesosaa = "AgACAgIAAxkBAAMEaW-Q3HEh96HO9ZXrRFYudf88HYsAAjkQaxvu5XhLYBV4W_qhEM0BAAMCAAN5AAM4BA"
-aboba = "AgACAgIAAxkBAAMDaW-QUYU72iUljBvZ6PUEjLJAsywAAjIQaxvu5XhLk_oJmB70yIEBAAMCAAN5AAM4BA"
-fisher = "AgACAgIAAxkBAAMFaW-RCw9GklzBbzgi844Qu5Fr1DQAAj0Qaxvu5XhLWVmwNowsGvoBAAMCAAN5AAM4BA"
+pedick =    "AgACAgIAAxkBAAIBDGlvYKvWPNCzUgUf0bD-Os89fA4ZAALqDGsbhN2AS-c4HUb_ISa2AQADAgADeQADOAQ"
+xyesos =    "CAACAgIAAx0CYjMl9wABAc3EaW-K1kS2Z-S3m9jqbitrXTTB5TQAAjUdAAJ9UKhIUJJ6M3Ok80c4BA"
+xyesosaa =  "AgACAgIAAxkBAAIBg2lvlMLVPDZVDN0SOx55HfqgeaL4AAI5EGsb7uV4SwmE49CFCKWcAQADAgADeQADOAQ"
+aboba =     "AgACAgIAAxkBAAIBhWlvlP8TrAesnzLSdKok_iVQGughAAIyEGsb7uV4Syzseq-jKlfeAQADAgADeQADOAQ"
+fisher =    "AgACAgIAAxkBAAIBhGlvlOqyFc9zn7CqeKbADL2GsWA3AAI9EGsb7uV4SwqGORgggyqRAQADAgADeQADOAQ"
 
 triggers = {
     "@roma_kaurcev"                 : ('photo' ,tankist),
@@ -126,6 +126,7 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 sticker=sticker.file_id,
                 reply_to_message_id=msg.message_id
             )
+            print(sticker.file_id)
 
         if msg.photo:
             print(msg.photo[-1].file_id)
