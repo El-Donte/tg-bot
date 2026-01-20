@@ -69,10 +69,10 @@ triggers = {
 }
 
 send_functions = {
-    'photo'     : lambda bot: bot.send_photo,
-    'video'     : lambda bot: bot.send_video,
-    'animation' : lambda bot: bot.send_animation,
-    'message'   : lambda bot: bot.send_message,
+    'photo'      : lambda bot: bot.send_photo,
+    'video'      : lambda bot: bot.send_video,
+    'animation'  : lambda bot: bot.send_animation,
+    'message'    : lambda bot: bot.send_message,
     'sticker'    : lambda  bot: bot.send_stiker,
 }
 
