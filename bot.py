@@ -172,8 +172,7 @@ async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
     await context.bot.send_message(
         chat_id=chat_id,
-        text=message,
-        parse_mode="MarkdownV2"
+        text=message
     )
 
 async def callback_alarm(context) -> None:
