@@ -59,11 +59,12 @@ triggers = {
     "чернобль"                      : ('video', operoma),
     "адвокат"                       : ('video', advokat),
     "педик"                         : ('photo', pedick),
+    "хуесосы хуисосатели"           : ('photo', xyesosaa),
     "рома ромчик"                   : ('message', "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→"),
     "макан"                         : ('message', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
     "я"                             : ('message', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
     "хуесос"                        : ('sticker', xyesos),
-    "хуесосы хуисосатели"           : ('photo', xyesosaa),
+
     "абоба"                         : ('photo', aboba),
     "рыбак"                         : ('photo', fisher),
 }
@@ -73,7 +74,7 @@ send_functions = {
     'video'      : lambda bot: bot.send_video,
     'animation'  : lambda bot: bot.send_animation,
     'message'    : lambda bot: bot.send_message,
-    'sticker'    : lambda  bot: bot.send_stiker,
+    'sticker'    : lambda  bot: bot.send_sticker,
 }
 
 async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
