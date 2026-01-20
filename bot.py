@@ -46,7 +46,7 @@ media = {
     "окнутые люди" : outtake_lude,
     "завозик" : zavozik,
     "депрессия" : sidzi,
-    "eбланы" : pidarasa,
+    "ебланы" : pidarasa,
     "хай гитлер" : hay_giler,
     "шуруп бензин" : shurupe_benzine,
     "сапоги" : sapogi,
@@ -92,6 +92,9 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if "рома" in text or "ромчик" in text:
             await context.bot.send_message(chat_id,"Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
+
+        # if "ебланы" in text:
+        #     await context.bot.send_photo(chat_id, "AgACAgIAAxkBAAPSaW9GKC45SP8oIH5GvSwLbClEjUMAAtcLaxuE3YBLt4Jjoi5gSaYBAAMCAAN5AAM4BA")
 
         for trigger_word in media.keys():
             if trigger_word in text:
