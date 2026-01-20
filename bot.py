@@ -89,7 +89,7 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         for trigger, (media_type, reply) in triggers.items():
-            if media_type == 'message2':
+            if media_type == 'message':
                 words = trigger.split(' ')
                 if len(words) == 1 and trigger == text:
                     send_method = send_functions[media_type](context.bot)
