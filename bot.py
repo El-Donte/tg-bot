@@ -25,7 +25,7 @@ outtake_lude = os.getenv("outtake_lude")[1 : -1]
 zavozik = os.getenv("zavozik")[1 : -1]
 sergey = os.getenv("sergey")[1 : -1]
 sidzi = os.getenv("sidzi")[1 : -1]
-pidarasa = os.getenv("pidarasa")[1 : -1]
+pidarasa = os.getenv("pidarasa")[1 : -1]+"A"
 operoma = os.getenv("operoma")[1 : -1]
 molchun = os.getenv("molchun")[1 : -1]
 hay_giler = os.getenv("hay_giler")[1 : -1]
@@ -36,6 +36,7 @@ AAAA = os.getenv("AAAA")[1 : -1]
 pidaras = os.getenv("pidaras")[1 : -1]
 advokat = os.getenv("advokat")[1 : -1]
 dance = os.getenv("dance")[1 : -1]
+pedick = "AgACAgIAAxkBAAIBDGlvYKvWPNCzUgUf0bD-Os89fA4ZAALqDGsbhN2AS-c4HUb_ISa2AQADAgADeQADOAQ"
 
 media = {
     "@roma_kaurcev" : tankist,
@@ -54,6 +55,7 @@ media = {
     "пидарас" : pidaras,
     "чернобль": operoma,
     "адвокат": advokat,
+    "педик" : pedick,
 }
 
 send_functions = {
@@ -154,9 +156,9 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     chat_id = update.effective_chat.id
 
     try:
-        await context.bot.send_video(
+        await context.bot.send_photo(
             chat_id=chat_id,
-            video=dance,
+            photo="AgACAgIAAxkBAAPSaW9GKC45SP8oIH5GvSwLbClEjUMAAtcLaxuE3YBLt4Jjoi5gSaYBAAMCAAN5AAM4BA",
         )
     except Exception as e:
         print(f"Не удалось отправить виде: {e}")
@@ -200,7 +202,7 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
         print(f"Не удалось поставить напоминалку: {e}")
 
 def main() -> None:
-    token = os.getenv("BOT_TOKEN")
+    token = "8389376627:AAHwSDv3qq-EghAtOVmhV8BVdPBSdx4Ja00"
 
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
