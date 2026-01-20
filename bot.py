@@ -38,30 +38,34 @@ advokat = os.getenv("advokat")[1 : -1]
 dance = os.getenv("dance")[1 : -1]
 pedick = "AgACAgIAAxkBAAIBDGlvYKvWPNCzUgUf0bD-Os89fA4ZAALqDGsbhN2AS-c4HUb_ISa2AQADAgADeQADOAQ"
 
-media = {
-    "@roma_kaurcev" : tankist,
-    "молчун" : molchun,
-    "абсолют" : absolute,
-    "серега" : sergey,
-    "окнутые люди" : outtake_lude,
-    "завозик" : zavozik,
-    "депрессия" : sidzi,
-    "ебланы" : pidarasa,
-    "хай гитлер" : hay_giler,
-    "шуруп бензин" : shurupe_benzine,
-    "сапоги" : sapogi,
-    "светлая память" : pamaty,
-    "аааа" : AAAA,
-    "пидарас" : pidaras,
-    "чернобль": operoma,
-    "адвокат": advokat,
-    "педик" : pedick,
+triggers = {
+    "@roma_kaurcev"     : ('photo' ,tankist),
+    "молчун"            : ('photo', molchun),
+    "абсолют"           : ('photo',absolute),
+    "серега"            : ('photo', sergey),
+    "окнутые люди"      : ('photo', outtake_lude),
+    "завозик"           : ('photo', zavozik),
+    "депрессия"         : ('photo', sidzi),
+    "ебланы"            : ('photo', pidarasa),
+    "хай гитлер"        : ('photo', hay_giler),
+    "шуруп бензин"      : ('photo', shurupe_benzine),
+    "сапоги"            : ('photo', sapogi),
+    "светлая память"    : ('photo', pamaty),
+    "аааа"              : ('photo', AAAA),
+    "пидарас"           : ('photo', pidaras),
+    "чернобль"          : ('video', operoma),
+    "адвокат"           : ('video', advokat),
+    "педик"             : ('photo', pedick),
+    "рома ромчик"       : ('message', "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→"),
+    "макан"             : ('message2', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
+    "я"                 : ('message2', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
 }
 
 send_functions = {
-    'A': lambda bot: bot.send_photo,
-    'B': lambda bot: bot.send_video,
-    'C': lambda bot: bot.send_animation,
+    'photo': lambda bot: bot.send_photo,
+    'video': lambda bot: bot.send_video,
+    'animation': lambda bot: bot.send_animation,
+    'message': lambda bot: bot.send_message,
 }
 
 
@@ -84,23 +88,14 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f"Не удалось поставить реакцию: {e}")
 
     try:
-        if "я" == text:
-            await update.message.reply_text("Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
-
-        if "макан" == text:
-            await context.bot.send_message(chat_id,"Хуесос  ┌∩┐(◣_◢)┌∩┐")
-
-        if "рома" in text or "ромчик" in text:
-            await context.bot.send_message(chat_id,"Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
-
-        # if "ебланы" in text:
-        #     await context.bot.send_photo(chat_id, "AgACAgIAAxkBAAPSaW9GKC45SP8oIH5GvSwLbClEjUMAAtcLaxuE3YBLt4Jjoi5gSaYBAAMCAAN5AAM4BA")
-
-        for trigger_word in media.keys():
-            if trigger_word in text:
-                media_id = media[trigger_word]
-                send_method = send_functions[media_id[0]](context.bot)
-                await send_method(chat_id, media_id)
+        for trigger, (media_type, reply) in triggers.items():
+            if media_type == 'message2':
+                if trigger == text:
+                    await context.bot.send_message(chat_id, reply)
+                    break
+            if trigger in text:
+                send_method = send_functions[media_type](context.bot)
+                await send_method(chat_id, reply)
                 break
 
     except Exception as e:
@@ -168,14 +163,18 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
 async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
-    text = media.keys().__repr__()
-    try:
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text = text
-        )
-    except Exception as e:
-        print(f"Не удалось отправить виде: {e}")
+    lines = ["Триггер       | Тип     |", "--------------|---------|"]
+
+    for trigger, (media_type) in sorted(triggers.items()):
+        lines.append(f"{trigger:<13} | {media_type:<7}")
+
+    message = "```\n" + "\n".join(lines) + "\n```"
+
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text=message,
+        parse_mode="MarkdownV2"
+    )
 
 async def callback_alarm(context) -> None:
     chat_id = context.job.data
