@@ -17,7 +17,6 @@ EMOJIS = {
     "Myp3ikGay": ReactionEmoji.GHOST,
 }
 
-
 jaba_id = os.getenv("jaba_id")[1 : -1]
 tankist = os.getenv("tankist")[1 : -1]
 absolute = os.getenv("absolute")[1 : -1]
@@ -37,40 +36,47 @@ pidaras = os.getenv("pidaras")[1 : -1]
 advokat = os.getenv("advokat")[1 : -1]
 dance = os.getenv("dance")[1 : -1]
 pedick = "AgACAgIAAxkBAAIBDGlvYKvWPNCzUgUf0bD-Os89fA4ZAALqDGsbhN2AS-c4HUb_ISa2AQADAgADeQADOAQ"
+xyesos = "CAACAgIAAxkBAAMCaW-PUkXhbf9qLFjat2A7pOV1bHUAAjUdAAJ9UKhIUJJ6M3Ok80c4BA"
+xyesosaa = "AgACAgIAAxkBAAMEaW-Q3HEh96HO9ZXrRFYudf88HYsAAjkQaxvu5XhLYBV4W_qhEM0BAAMCAAN5AAM4BA"
+aboba = "AgACAgIAAxkBAAMDaW-QUYU72iUljBvZ6PUEjLJAsywAAjIQaxvu5XhLk_oJmB70yIEBAAMCAAN5AAM4BA"
+fisher = "AgACAgIAAxkBAAMFaW-RCw9GklzBbzgi844Qu5Fr1DQAAj0Qaxvu5XhLWVmwNowsGvoBAAMCAAN5AAM4BA"
 
 triggers = {
-    "@roma_kaurcev"     : ('photo' ,tankist),
-    "молчун"            : ('photo', molchun),
-    "абсолют"           : ('photo',absolute),
-    "серега"            : ('photo', sergey),
-    "окнутые люди"      : ('photo', outtake_lude),
-    "завозик"           : ('photo', zavozik),
-    "депрессия"         : ('photo', sidzi),
-    "ебланы"            : ('photo', pidarasa),
-    "хай гитлер"        : ('photo', hay_giler),
-    "шуруп бензин"      : ('photo', shurupe_benzine),
-    "сапоги"            : ('photo', sapogi),
-    "светлая память"    : ('photo', pamaty),
-    "аааа"              : ('photo', AAAA),
-    "пидарас"           : ('photo', pidaras),
-    "чернобль"          : ('video', operoma),
-    "адвокат"           : ('video', advokat),
-    "педик"             : ('photo', pedick),
-    "рома ромчик"       : ('message', "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→"),
-    "макан"             : ('message', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
-    "я"                 : ('message', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
+    "@roma_kaurcev"                 : ('photo' ,tankist),
+    "молчун"                        : ('photo', molchun),
+    "абсолют"                       : ('photo',absolute),
+    "серега"                        : ('photo', sergey),
+    "окнутые люди"                  : ('photo', outtake_lude),
+    "завозик"                       : ('photo', zavozik),
+    "депрессия"                     : ('photo', sidzi),
+    "ебланы"                        : ('photo', pidarasa),
+    "хай гитлер"                    : ('photo', hay_giler),
+    "шуруп бензин"                  : ('photo', shurupe_benzine),
+    "сапоги"                        : ('photo', sapogi),
+    "светлая память"                : ('photo', pamaty),
+    "аааа"                          : ('photo', AAAA),
+    "пидарас"                       : ('photo', pidaras),
+    "чернобль"                      : ('video', operoma),
+    "адвокат"                       : ('video', advokat),
+    "педик"                         : ('photo', pedick),
+    "рома ромчик"                   : ('message', "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→"),
+    "макан"                         : ('message', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
+    "я"                             : ('message', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
+    "хуесос"                        : ('stiker', xyesos),
+    "хуесосы хуисосатели"           : ('photo', xyesosaa),
+    "абоба"                         : ('photo', aboba),
+    "рыбак"                         : ('photo', fisher),
 }
 
 send_functions = {
-    'photo': lambda bot: bot.send_photo,
-    'video': lambda bot: bot.send_video,
-    'animation': lambda bot: bot.send_animation,
-    'message': lambda bot: bot.send_message,
+    'photo'     : lambda bot: bot.send_photo,
+    'video'     : lambda bot: bot.send_video,
+    'animation' : lambda bot: bot.send_animation,
+    'message'   : lambda bot: bot.send_message,
+    'stiker'    : lambda  bot: bot.send_stiker,
 }
 
-
 async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     msg = update.message
     text = update.message.text.lower() if update.message.text else ""
     chat_id = update.effective_chat.id
