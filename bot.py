@@ -45,7 +45,7 @@ media = {
     "окнутые люди" : outtake_lude,
     "завозик" : zavozik,
     "депрессия" : sidzi,
-    "пидарасы" : pidarasa,
+    "eбланы" : pidarasa,
     "хай гитлер" : hay_giler,
     "шуруп бензин" : shurupe_benzine,
     "сапоги" : sapogi,
