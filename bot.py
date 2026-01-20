@@ -95,18 +95,12 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         for trigger, (media_type, reply) in triggers.items():
-            if media_type == 'message':
-                words = trigger.split(' ')
-                if len(words) == 1 and trigger == text:
-                    send_method = send_functions[media_type](context.bot)
-                    await send_method(chat_id, reply)
-                    break
-                elif any(word in text for word in words):
-                    send_method = send_functions[media_type](context.bot)
-                    await send_method(chat_id, reply)
-                    break
-
-            if trigger in text:
+            words = trigger.split(' ')
+            if len(words) == 1 and trigger == text and media_type.lower() == 'message':
+                send_method = send_functions[media_type](context.bot)
+                await send_method(chat_id, reply)
+                break
+            elif any(word in text for word in words):
                 send_method = send_functions[media_type](context.bot)
                 await send_method(chat_id, reply)
                 break
