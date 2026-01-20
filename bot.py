@@ -17,7 +17,7 @@ EMOJIS = {
     "Myp3ikGay": ReactionEmoji.GHOST,
 }
 
-jaba_id = os.getenv("jaba_id")[1 : -1]
+jaba_id = "CgACAgQAAx0CYjMl9wABAc4HaW-bS2BtVGcLVBp81QABeDqZCXhkAAIzBAACL1C1U1BhJllLO8FJOAQ"
 tankist = os.getenv("tankist")[1 : -1]
 absolute = os.getenv("absolute")[1 : -1]
 outtake_lude = os.getenv("outtake_lude")[1 : -1]
@@ -64,7 +64,6 @@ triggers = {
     "макан"                         : ('message', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
     "я"                             : ('message', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
     "хуесос"                        : ('sticker', xyesos),
-
     "абоба"                         : ('photo', aboba),
     "рыбак"                         : ('photo', fisher),
 }
@@ -97,11 +96,11 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         for trigger, (media_type, reply) in triggers.items():
             words = trigger.split(' ')
-            if len(words) == 1 and trigger == text and media_type.lower() == 'message':
+            if len(words) == 1 and trigger == text and media_type == 'message':
                 send_method = send_functions[media_type](context.bot)
                 await send_method(chat_id, reply)
                 break
-            elif any(word in text for word in words):
+            elif any(word in text for word in words if word != 'я'):
                 send_method = send_functions[media_type](context.bot)
                 await send_method(chat_id, reply)
                 break
