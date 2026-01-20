@@ -173,7 +173,7 @@ async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     lines = ["Триггер        | Тип     |", "---------------|---------|"]
 
     for trigger, (media_type, reply) in sorted(triggers.items()):
-        lines.append(f"{trigger:<14} | {media_type if len(media_type) <= 7 else media_type[0 : -1]}")
+        lines.append(f"{trigger:<14} | {media_type:<7}")
 
     message = "```\n" + "\n".join(lines) + "\n```"
 
