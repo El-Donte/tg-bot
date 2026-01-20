@@ -50,7 +50,7 @@ media = {
     "шуруп бензин" : shurupe_benzine,
     "сапоги" : sapogi,
     "светлая память" : pamaty,
-    "ААААА" : AAAA,
+    "аааа" : AAAA,
     "пидарас" : pidaras,
     "чернобль": operoma,
     "адвокат": advokat,
@@ -96,6 +96,7 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 media_id = media[trigger_word]
                 send_method = send_functions[media_id[0]](context.bot)
                 await send_method(chat_id, media_id)
+                break
 
     except Exception as e:
         print(f"Не удалось ответить: {e}")
