@@ -5,7 +5,7 @@ from telegram.ext import Application, filters, CommandHandler, ContextTypes, Mes
 from telegram import Update
 import os
 
-CHATS = ["-1001647519223"]
+CHATS = [-1001647519223]
 
 EMOJIS = {
     "zxc_chmo" : ReactionEmoji.CLOWN_FACE,
@@ -25,7 +25,7 @@ outtake_lude = os.getenv("outtake_lude")[1 : -1]
 zavozik = os.getenv("zavozik")[1 : -1]
 sergey = os.getenv("sergey")[1 : -1]
 sidzi = os.getenv("sidzi")[1 : -1]
-pidarasa = os.getenv("pidarasa")[1 : -1]+"A"
+pidarasa = "AgACAgIAAxkBAAPSaW9GKC45SP8oIH5GvSwLbClEjUMAAtcLaxuE3YBLt4Jjoi5gSaYBAAMCAAN5AAM4BA"
 operoma = os.getenv("operoma")[1 : -1]
 molchun = os.getenv("molchun")[1 : -1]
 hay_giler = os.getenv("hay_giler")[1 : -1]
@@ -156,9 +156,9 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     chat_id = update.effective_chat.id
 
     try:
-        await context.bot.send_photo(
+        await context.bot.send_video(
             chat_id=chat_id,
-            photo="AgACAgIAAxkBAAPSaW9GKC45SP8oIH5GvSwLbClEjUMAAtcLaxuE3YBLt4Jjoi5gSaYBAAMCAAN5AAM4BA",
+            video=dance,
         )
     except Exception as e:
         print(f"Не удалось отправить виде: {e}")
@@ -202,7 +202,7 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
         print(f"Не удалось поставить напоминалку: {e}")
 
 def main() -> None:
-    token = "8389376627:AAHwSDv3qq-EghAtOVmhV8BVdPBSdx4Ja00"
+    token = os.getenv("BOT_TOKEN")
 
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
