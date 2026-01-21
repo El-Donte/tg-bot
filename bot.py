@@ -182,6 +182,7 @@ async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         await context.bot.send_message(
             chat_id=chat_id,
             text=reply_string,
+            parse_mode="MarkdownV2"
         )
     except Exception as e:
         print(f"Не удалось отправить ники: {e}")
