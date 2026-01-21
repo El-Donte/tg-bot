@@ -1,5 +1,6 @@
 import datetime
 
+import cloudscraper
 from telegram.constants import ReactionEmoji
 from telegram.ext import Application, filters, CommandHandler, ContextTypes, MessageHandler
 from telegram import Update
@@ -10,12 +11,16 @@ from bs4 import BeautifulSoup
 
 
 def get_response(url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-    }
+    scraper = cloudscraper.create_scraper(
+        browser={
+            'browser': 'chrome',
+            'platform': 'windows',
+            'mobile': False
+        }
+    )
 
     try:
-        response = requests.get(url, impersonate="chrome131")
+        response = scraper.get(url)
         response.raise_for_status()
 
         return response
