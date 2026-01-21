@@ -18,7 +18,7 @@ def get_response(url):
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
 
-        raise RuntimeError(response)
+
         return response
     except requests.RequestException as e:
         print(f"Ошибка запроса: {e}")
@@ -31,6 +31,7 @@ def get_visible_text(soup):
     text = soup.get_text(separator="\n", strip=True)
 
     lines = [line.strip() for line in text.splitlines() if line.strip()]
+    raise RuntimeError(text)
     return "\n".join(lines)
 
 
