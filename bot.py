@@ -15,7 +15,7 @@ def get_response(url):
     }
 
     try:
-        response = requests.get("https://...", impersonate="chrome131")
+        response = requests.get(url, impersonate="chrome131")
         response.raise_for_status()
 
         return response
