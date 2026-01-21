@@ -11,6 +11,13 @@ from bs4 import BeautifulSoup
 
 
 def get_response(url):
+    headers = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,/;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, sdch', 'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
+        'Cache-Control': 'max-age=0', 'Connection': 'close', 'Host': 'www.propertyguru.com.sg',
+        'Referer': 'propertyguru.com.sg/singapore-property-listing/…', 'Upgrade-Insecure-Requests': '1',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'
+    }
     scraper = cloudscraper.create_scraper(
         browser={
             'browser': 'chrome',
@@ -19,8 +26,11 @@ def get_response(url):
         }
     )
 
+
     try:
-        response = scraper.get(url)
+        with requests.Session() as s:
+            response = s.get(url)
+
         response.raise_for_status()
 
         return response
