@@ -177,7 +177,7 @@ async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     nicks = '\n'.join(get_nicks_for_name(name))
     reply_string = f'Вот ники для имени: {name}\n\n' + nicks
-
+    print(reply_string)
     try:
         await context.bot.send_message(
             chat_id=chat_id,
