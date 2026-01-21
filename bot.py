@@ -204,7 +204,6 @@ async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
 async def callback_alarm(context) -> None:
     try:
-
         await context.bot.send_message(
             chat_id=CHATS[0],
             text="/pidor@SublimeBot"
@@ -220,7 +219,8 @@ async def set_daily_reminder(app: Application) -> None:
             time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc)
         )
 
-        await bot.message.reply_text(
+        await bot.send_message(
+            CHATS[0],
             "Ежедневный пидор поставлен на 9 утра"
         )
     except Exception as e:
@@ -240,7 +240,6 @@ def main() -> None:
             .build()
     )
 
-    app.add_handler(CommandHandler("set_daily_pidor", set_daily_reminder))
     app.add_handler(CommandHandler("fuck", fuck_func))
     app.add_handler(CommandHandler("suck", suck_func))
     app.add_handler(CommandHandler("dance", dance_func))
