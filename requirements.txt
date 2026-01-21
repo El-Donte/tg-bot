@@ -2,5 +2,6 @@ python-telegram-bot[job-queue]
 pyTelegramBotAPI
 requests
 curl_cffi
+cloudscraper
 python-dotenv
 beautifulsoup4
