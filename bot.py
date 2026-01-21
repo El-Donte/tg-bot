@@ -20,7 +20,6 @@ def get_response(url):
         return response
     except requests.RequestException as e:
         print(f"Ошибка запроса: {e}")
-        exit()
 
 
 def get_visible_text(soup):
