@@ -1,65 +1,11 @@
 import datetime
 
-import cloudscraper
 from telegram.constants import ReactionEmoji
 from telegram.ext import Application, filters, CommandHandler, ContextTypes, MessageHandler
 from telegram import Update
 import os
 
-import requests
-from bs4 import BeautifulSoup
-
-
-def get_response(url):
-    headers = {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Encoding': 'gzip, deflate, br, zstd',
-        'Accept-Language': 'ru',
-        'Cache-Control': 'max-age=0',
-        'Host': 'ru.nickfinder.com',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/140.0.0.0 YaBrowser/25.10.0.0 Safari/537.36'
-    }
-
-    scraper = cloudscraper.create_scraper(
-        browser={
-            'browser': 'chrome',
-            'platform': 'windows',
-            'mobile': False
-        }
-    )
-
-    try:
-        response = scraper.get(url, headers=headers)
-        response.raise_for_status()
-
-        return response
-    except requests.RequestException as e:
-        print(f"Ошибка запроса: {e}")
-
-
-def get_visible_text(soup):
-    for tag in soup(["script", "style", "head", "title", "meta", "[document]"]):
-        tag.decompose()
-
-    text = soup.get_text(separator="\n", strip=True)
-
-    lines = [line.strip() for line in text.splitlines() if line.strip()]
-    raise RuntimeError(text)
-    return "\n".join(lines)
-
-
-def get_nicks_for_name(name):
-    url = f"https://ru.nickfinder.com/{name}"
-    response = get_response(url)
-
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    clean_text = get_visible_text(soup)
-    start_index = clean_text.find("Генератор ников для")
-    end_index = clean_text.find("Уже скопировано")
-
-    return clean_text[start_index:end_index - 1].split('\n')[1:]
+from nick_parser import get_nicks_for_name
 
 CHATS = [-1001647519223]
 
@@ -73,29 +19,29 @@ EMOJIS = {
     "Myp3ikGay": ReactionEmoji.GHOST,
 }
 
-jaba_id = "CgACAgQAAx0CYjMl9wABAc4HaW-bS2BtVGcLVBp81QABeDqZCXhkAAIzBAACL1C1U1BhJllLO8FJOAQ"
-tankist = "AgACAgIAAxkBAAO-aWZ5E9HnkEu_15d1sFkvlr4skFkAAnwSaxttODFLEjpPniWwqSUBAAMCAAN4AAM4BA"
-absolute = "AgACAgIAAxkBAAPLaW9FR8M_DlQbCxhQ_oRawyJPocgAAscLaxuE3YBLKWgmS1UyIn8BAAMCAAN5AAM4BA"
-outtake_lude = "AgACAgIAAxkBAAPMaW9FdREh4Mb5y0NENUnwulLSiOYAAskLaxuE3YBLLa5e0PJq2QQBAAMCAAN5AAM4BA"
-zavozik = "AgACAgIAAxkBAAP0aW9Wydrq5LzjAo-m74XWaj0O6kkAAnwMaxuE3YBLCY2z2LHFCxIBAAMCAAN4AAM4BA"
-sergey = "AgACAgIAAxkBAAPOaW9FyD3plsgBspRSETdOuPBMBeoAAtALaxuE3YBLXjyNjTlVg5YBAAMCAAN5AAM4BA"
-sidzi = "AgACAgIAAxkBAAPRaW9GC_25qRIQRRu3txv3aSgm_EIAAtQLaxuE3YBLKD3mtJCP2Y4BAAMCAAN4AAM4BA"
-pidarasa = "AgACAgIAAxkBAAPSaW9GKC45SP8oIH5GvSwLbClEjUMAAtcLaxuE3YBLt4Jjoi5gSaYBAAMCAAN5AAM4BA"
-operoma = "BAACAgIAAxkBAAPTaW9HQQg2C-ejVWdOJJS1GSC7CssAAnWJAAKE3YBL7down5xYU9Q4BA"
-molchun = "AgACAgIAAxkBAAPUaW9I2__Oc-4Hb4Yoe2vluTQCFFkAAusLaxuE3YBLDA5YS1d0aQwBAAMCAAN5AAM4BA"
-hay_giler = "AgACAgIAAxkBAAPVaW9I8bQ-I577DDrkS8vSFhGm-8oAAuwLaxuE3YBL7WYMb6DhBWwBAAMCAAN5AAM4BA"
+jaba_id         = "CgACAgQAAx0CYjMl9wABAc4HaW-bS2BtVGcLVBp81QABeDqZCXhkAAIzBAACL1C1U1BhJllLO8FJOAQ"
+tankist         = "AgACAgIAAxkBAAO-aWZ5E9HnkEu_15d1sFkvlr4skFkAAnwSaxttODFLEjpPniWwqSUBAAMCAAN4AAM4BA"
+absolute        = "AgACAgIAAxkBAAPLaW9FR8M_DlQbCxhQ_oRawyJPocgAAscLaxuE3YBLKWgmS1UyIn8BAAMCAAN5AAM4BA"
+outtake_lude    = "AgACAgIAAxkBAAPMaW9FdREh4Mb5y0NENUnwulLSiOYAAskLaxuE3YBLLa5e0PJq2QQBAAMCAAN5AAM4BA"
+zavozik         = "AgACAgIAAxkBAAP0aW9Wydrq5LzjAo-m74XWaj0O6kkAAnwMaxuE3YBLCY2z2LHFCxIBAAMCAAN4AAM4BA"
+sergey          = "AgACAgIAAxkBAAPOaW9FyD3plsgBspRSETdOuPBMBeoAAtALaxuE3YBLXjyNjTlVg5YBAAMCAAN5AAM4BA"
+sidzi           = "AgACAgIAAxkBAAPRaW9GC_25qRIQRRu3txv3aSgm_EIAAtQLaxuE3YBLKD3mtJCP2Y4BAAMCAAN4AAM4BA"
+pidarasa        = "AgACAgIAAxkBAAPSaW9GKC45SP8oIH5GvSwLbClEjUMAAtcLaxuE3YBLt4Jjoi5gSaYBAAMCAAN5AAM4BA"
+operoma         = "BAACAgIAAxkBAAPTaW9HQQg2C-ejVWdOJJS1GSC7CssAAnWJAAKE3YBL7down5xYU9Q4BA"
+molchun         = "AgACAgIAAxkBAAPUaW9I2__Oc-4Hb4Yoe2vluTQCFFkAAusLaxuE3YBLDA5YS1d0aQwBAAMCAAN5AAM4BA"
+hay_giler       = "AgACAgIAAxkBAAPVaW9I8bQ-I577DDrkS8vSFhGm-8oAAuwLaxuE3YBL7WYMb6DhBWwBAAMCAAN5AAM4BA"
 shurupe_benzine = "AgACAgIAAxkBAAPWaW9JDK0AAZTQDkdapA9ZajBjuf9OAALtC2sbhN2ASxnTWzwmPUeWAQADAgADeQADOAQ"
-sapogi = "AgACAgIAAxkBAAPXaW9JLA4my1mJQ_RddLNPYkFfIhUAAvELaxuE3YBLwGr7R1kjUJoBAAMCAAN5AAM4BA"
-pamaty = "AgACAgIAAxkBAAPYaW9JR8sWkzexFvkO6gsoK0Dfy-8AAvILaxuE3YBLF3cPvBEsTo4BAAMCAAN5AAM4BA"
-AAAA = "AgACAgIAAxkBAAPZaW9JX-mKLJWJWSFyKtH_72aT1h4AAvQLaxuE3YBLAAGQTBTaYO4HAQADAgADeQADOAQ"
-pidaras = "AgACAgIAAxkBAAPaaW9Jgr5xqIgLkelHAAGVs__kWsyIAAL4C2sbhN2ASwABuYK-QpPnzQEAAwIAA3gAAzgE"
-advokat = "BAACAgIAAxkBAAPbaW9JtucYCmrkAAEYA8bTbMS5S35BAAKgiQAChN2ASyztqGa6l4QsOAQ"
-dance = "BAACAgIAAxkBAAPlaW9NwNOUUPiQGDNaikuZJFCn0AgAAgSIAAJDmlBKHnP9yFRreSI4BA"
-pedick =    "AgACAgIAAxkBAAIBDGlvYKvWPNCzUgUf0bD-Os89fA4ZAALqDGsbhN2AS-c4HUb_ISa2AQADAgADeQADOAQ"
-xyesos =    "CAACAgIAAx0CYjMl9wABAc3EaW-K1kS2Z-S3m9jqbitrXTTB5TQAAjUdAAJ9UKhIUJJ6M3Ok80c4BA"
-xyesosaa =  "AgACAgIAAxkBAAIBg2lvlMLVPDZVDN0SOx55HfqgeaL4AAI5EGsb7uV4SwmE49CFCKWcAQADAgADeQADOAQ"
-aboba =     "AgACAgIAAxkBAAIBhWlvlP8TrAesnzLSdKok_iVQGughAAIyEGsb7uV4Syzseq-jKlfeAQADAgADeQADOAQ"
-fisher =    "AgACAgIAAxkBAAIBhGlvlOqyFc9zn7CqeKbADL2GsWA3AAI9EGsb7uV4SwqGORgggyqRAQADAgADeQADOAQ"
+sapogi          = "AgACAgIAAxkBAAPXaW9JLA4my1mJQ_RddLNPYkFfIhUAAvELaxuE3YBLwGr7R1kjUJoBAAMCAAN5AAM4BA"
+pamaty          = "AgACAgIAAxkBAAPYaW9JR8sWkzexFvkO6gsoK0Dfy-8AAvILaxuE3YBLF3cPvBEsTo4BAAMCAAN5AAM4BA"
+AAAA            = "AgACAgIAAxkBAAPZaW9JX-mKLJWJWSFyKtH_72aT1h4AAvQLaxuE3YBLAAGQTBTaYO4HAQADAgADeQADOAQ"
+pidaras         = "AgACAgIAAxkBAAPaaW9Jgr5xqIgLkelHAAGVs__kWsyIAAL4C2sbhN2ASwABuYK-QpPnzQEAAwIAA3gAAzgE"
+advokat         = "BAACAgIAAxkBAAPbaW9JtucYCmrkAAEYA8bTbMS5S35BAAKgiQAChN2ASyztqGa6l4QsOAQ"
+dance           = "BAACAgIAAxkBAAPlaW9NwNOUUPiQGDNaikuZJFCn0AgAAgSIAAJDmlBKHnP9yFRreSI4BA"
+pedick          = "AgACAgIAAxkBAAIBDGlvYKvWPNCzUgUf0bD-Os89fA4ZAALqDGsbhN2AS-c4HUb_ISa2AQADAgADeQADOAQ"
+xyesos          = "CAACAgIAAx0CYjMl9wABAc3EaW-K1kS2Z-S3m9jqbitrXTTB5TQAAjUdAAJ9UKhIUJJ6M3Ok80c4BA"
+xyesosaa        = "AgACAgIAAxkBAAIBg2lvlMLVPDZVDN0SOx55HfqgeaL4AAI5EGsb7uV4SwmE49CFCKWcAQADAgADeQADOAQ"
+aboba           = "AgACAgIAAxkBAAIBhWlvlP8TrAesnzLSdKok_iVQGughAAIyEGsb7uV4Syzseq-jKlfeAQADAgADeQADOAQ"
+fisher          = "AgACAgIAAxkBAAIBhGlvlOqyFc9zn7CqeKbADL2GsWA3AAI9EGsb7uV4SwqGORgggyqRAQADAgADeQADOAQ"
 
 triggers = {
     "@roma_kaurcev"                 : ('photo' ,tankist),
@@ -269,10 +215,10 @@ async def set_daily_reminder(app: Application) -> None:
             time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc)
         )
 
-        # await bot.send_message(
-        #     CHATS[0],
-        #     "Ежедневный пидор поставлен на 9 утра"
-        # )
+        await bot.send_message(
+            CHATS[0],
+            "Ежедневный пидор поставлен на 9 утра"
+        )
     except Exception as e:
         print(f"Не удалось поставить напоминалку: {e}")
 
