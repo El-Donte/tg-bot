@@ -16,10 +16,9 @@ def get_response(url):
         'Accept-Encoding': 'gzip, deflate, br, zstd',
         'Accept-Language': 'ru',
         'Cache-Control': 'max-age=0',
-        'Priority': 'u=0, i',
-        'Connection': 'close',
+        'Host': 'ru.nickfinder.com',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 YaBrowser/25.10.0.0 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/140.0.0.0 YaBrowser/25.10.0.0 Safari/537.36'
     }
 
     scraper = cloudscraper.create_scraper(
@@ -30,11 +29,8 @@ def get_response(url):
         }
     )
 
-
     try:
-        with requests.Session() as s:
-            response = s.get(url)
-
+        response = scraper.get(url, headers=headers)
         response.raise_for_status()
 
         return response
