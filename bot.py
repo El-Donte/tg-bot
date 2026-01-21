@@ -5,7 +5,7 @@ from telegram.ext import Application, filters, CommandHandler, ContextTypes, Mes
 from telegram import Update
 import os
 
-import requests
+from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 
@@ -15,9 +15,8 @@ def get_response(url):
     }
 
     try:
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get("https://...", impersonate="chrome131")
         response.raise_for_status()
-
 
         return response
     except requests.RequestException as e:
