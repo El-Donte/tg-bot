@@ -5,6 +5,8 @@ from telegram.ext import Application, filters, CommandHandler, ContextTypes, Mes
 from telegram import Update
 import os
 
+from nick_parser import get_nicks_for_name
+
 CHATS = [-1001647519223]
 
 EMOJIS = {
@@ -167,7 +169,22 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             video=dance,
         )
     except Exception as e:
-        print(f"Не удалось отправить виде: {e}")
+        print(f"Не удалось отправить видеo: {e}")
+
+async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = update.effective_chat.id
+    name = context.args[0] if len(context.args) == 1 else ""
+
+    nicks = '\n'.join(get_nicks_for_name(name))
+    reply_string = f'Вот ники для имени: {name}\n\n' + nicks
+
+    try:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=reply_string,
+        )
+    except Exception as e:
+        print(f"Не удалось отправить ники: {e}")
 
 async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
@@ -202,14 +219,6 @@ async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE)
     chat_id = update.effective_chat.id
 
     try:
-        if CHATS.__contains__(chat_id):
-            await update.message.reply_text(
-                "Ежедневный пидор уже поставлен"
-            )
-            return
-        else:
-            CHATS.append(chat_id)
-
         context.job_queue.run_daily(
             callback_alarm,
             time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc),
@@ -228,13 +237,20 @@ def main() -> None:
     if not token:
         raise ValueError("BOT_TOKEN environment variable not set!")
 
-    app = Application.builder().token(token).build()
+    app = (
+        Application
+            .builder()
+            .post_init(set_daily_reminder)
+            .token(token)
+            .build()
+    )
 
     app.add_handler(CommandHandler("set_daily_pidor", set_daily_reminder))
     app.add_handler(CommandHandler("fuck", fuck_func))
     app.add_handler(CommandHandler("suck", suck_func))
     app.add_handler(CommandHandler("dance", dance_func))
     app.add_handler(CommandHandler("list_words", list_words_func))
+    app.add_handler(CommandHandler("nick", list_nicks))
 
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
@@ -246,7 +262,10 @@ def main() -> None:
         echo_media
     ))
 
-    app.run_polling()
+    app.run_polling(
+        allowed_updates=Update.ALL_TYPES,
+        drop_pending_updates=True,
+    )
 
 if __name__ == "__main__":
     main()
