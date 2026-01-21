@@ -202,30 +202,24 @@ async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     )
 
 async def callback_alarm(context) -> None:
-    chat_id = context.job.data
-
     try:
-        if not CHATS.__contains__(chat_id):
-            return
 
         await context.bot.send_message(
-            chat_id=chat_id,
+            chat_id=CHATS[0],
             text="/pidor@SublimeBot"
         )
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
-async def set_daily_reminder(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    chat_id = update.effective_chat.id
-
+async def set_daily_reminder(app: Application) -> None:
+    bot = app.bot
     try:
-        context.job_queue.run_daily(
+        bot.job_queue.run_daily(
             callback_alarm,
-            time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc),
-            data=chat_id,
+            time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc)
         )
 
-        await update.message.reply_text(
+        await bot.message.reply_text(
             "Ежедневный пидор поставлен на 9 утра"
         )
     except Exception as e:
