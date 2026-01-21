@@ -215,7 +215,7 @@ async def callback_alarm(context) -> None:
 async def set_daily_reminder(app: Application) -> None:
     bot = app.bot
     try:
-        bot.job_queue.run_daily(
+        app.job_queue.run_daily(
             callback_alarm,
             time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc)
         )
