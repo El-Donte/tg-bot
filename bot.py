@@ -17,6 +17,8 @@ def get_response(url):
     try:
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
+
+        raise RuntimeError(response)
         return response
     except requests.RequestException as e:
         print(f"Ошибка запроса: {e}")
@@ -210,7 +212,6 @@ async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     name = context.args[0] if len(context.args) == 1 else ""
 
     nicks = '\n'.join(get_nicks_for_name(name))
-    raise RuntimeError(nicks)
     reply_string = f'Вот ники для имени: {name}\n\n' + nicks
 
     try:
