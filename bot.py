@@ -166,10 +166,6 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 sticker=sticker.file_id,
                 reply_to_message_id=msg.message_id
             )
-            print(sticker.file_id)
-
-        if msg.photo:
-            print(msg.photo[-1].file_id)
 
     except Exception as e:
         print(f"Не удалось ответить: {e}")
@@ -214,6 +210,7 @@ async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     name = context.args[0] if len(context.args) == 1 else ""
 
     nicks = '\n'.join(get_nicks_for_name(name))
+    raise RuntimeError(nicks)
     reply_string = f'Вот ники для имени: {name}\n\n' + nicks
 
     try:
