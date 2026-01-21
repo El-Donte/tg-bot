@@ -99,10 +99,8 @@ triggers = {
     "чернобль"                      : ('video', operoma),
     "адвокат"                       : ('video', advokat),
     "педик"                         : ('photo', pedick),
-    "хуесосы хуисосатели"           : ('photo', xyesosaa),
-    "рома ромчик"                   : ('message', "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→"),
+    "хуисосатели"                   : ('photo', xyesosaa),
     "макан"                         : ('message', "Хуесос  ┌∩┐(◣_◢)┌∩┐"),
-    "я"                             : ('message', "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ "),
     "хуесос"                        : ('sticker', xyesos),
     "абоба"                         : ('photo', aboba),
     "рыбак"                         : ('photo', fisher),
@@ -134,13 +132,16 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f"Не удалось поставить реакцию: {e}")
 
     try:
+        if "рома" in text or "ромчик" in text:
+            send_method = send_functions["message"](context.bot)
+            await send_method(chat_id, "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
+
+        if "я" == text:
+            send_method = send_functions["message"](context.bot)
+            await send_method(chat_id, "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
+
         for trigger, (media_type, reply) in triggers.items():
-            words = trigger.split(' ')
-            if len(words) == 1 and trigger == text and media_type == 'message':
-                send_method = send_functions[media_type](context.bot)
-                await send_method(chat_id, reply)
-                break
-            elif any(word in text for word in words if word != 'я'):
+            if trigger in text:
                 send_method = send_functions[media_type](context.bot)
                 await send_method(chat_id, reply)
                 break
@@ -215,12 +216,11 @@ async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     nicks = '\n'.join(get_nicks_for_name(name))
     reply_string = f'Вот ники для имени: {name}\n\n' + nicks
-    print(reply_string)
+
     try:
         await context.bot.send_message(
             chat_id=chat_id,
-            text=reply_string,
-            parse_mode="MarkdownV2"
+            text=reply_string
         )
     except Exception as e:
         print(f"Не удалось отправить ники: {e}")
@@ -257,10 +257,10 @@ async def set_daily_reminder(app: Application) -> None:
             time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc)
         )
 
-        await bot.send_message(
-            CHATS[0],
-            "Ежедневный пидор поставлен на 9 утра"
-        )
+        # await bot.send_message(
+        #     CHATS[0],
+        #     "Ежедневный пидор поставлен на 9 утра"
+        # )
     except Exception as e:
         print(f"Не удалось поставить напоминалку: {e}")
 
