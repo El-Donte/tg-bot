@@ -2,3 +2,4 @@ python-telegram-bot[job-queue]
 pyTelegramBotAPI
 requests
 python-dotenv
+beautifulsoup4
