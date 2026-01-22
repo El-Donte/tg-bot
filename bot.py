@@ -188,12 +188,15 @@ async def deadinside_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             text="dead inside 1000-7"
         )
         n = 1000
+        reply = ""
         while n > 0:
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text=f"{n}-7"
-            )
+            reply += f"{n}-7\n"
             n -= 7
+
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=reply
+        )
         await context.bot.send_sticker(
             chat_id=chat_id,
             sticker=deadinside,
