@@ -42,6 +42,8 @@ xyesos          = "CAACAgIAAx0CYjMl9wABAc3EaW-K1kS2Z-S3m9jqbitrXTTB5TQAAjUdAAJ9U
 xyesosaa        = "AgACAgIAAxkBAAIBg2lvlMLVPDZVDN0SOx55HfqgeaL4AAI5EGsb7uV4SwmE49CFCKWcAQADAgADeQADOAQ"
 aboba           = "AgACAgIAAxkBAAIBhWlvlP8TrAesnzLSdKok_iVQGughAAIyEGsb7uV4Syzseq-jKlfeAQADAgADeQADOAQ"
 fisher          = "AgACAgIAAxkBAAIBhGlvlOqyFc9zn7CqeKbADL2GsWA3AAI9EGsb7uV4SwqGORgggyqRAQADAgADeQADOAQ"
+papa            = "AgACAgIAAxkBAAICq2lyS-CQXI0v7ki3JQstnkmk63iNAALnEmsbcDWRS8Gl1U1Ghw9_AQADAgADeQADOAQ"
+deadinside            = "CAACAgIAAx0CYjMl9wABAdGCaXIt25F549kFHFS0ghD0r-LXuzoAApU2AAKySBFI2a7AYscanJY4BA"
 
 triggers = {
     "@roma_kaurcev"                 : ('photo' ,tankist),
@@ -66,6 +68,7 @@ triggers = {
     "хуесос"                        : ('sticker', xyesos),
     "абоба"                         : ('photo', aboba),
     "рыбак"                         : ('photo', fisher),
+    "папочка зол"                   : ('photo', papa),
 }
 
 send_functions = {
@@ -94,6 +97,10 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f"Не удалось поставить реакцию: {e}")
 
     try:
+        if "1000-7" in text:
+            await deadinside_func(update, context)
+            return
+
         if "рома" in text or "ромчик" in text:
             send_method = send_functions["message"](context.bot)
             await send_method(chat_id, "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
@@ -129,6 +136,10 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 sticker=sticker.file_id,
                 reply_to_message_id=msg.message_id
             )
+            print(sticker.file_id)
+
+        if msg.photo:
+            print(msg.photo[-1].file_id)
 
     except Exception as e:
         print(f"Не удалось ответить: {e}")
@@ -167,6 +178,28 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         )
     except Exception as e:
         print(f"Не удалось отправить видеo: {e}")
+
+async def deadinside_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = update.effective_chat.id
+
+    try:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="dead inside 1000-7"
+        )
+        n = 1000
+        while n > 0:
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text=f"{n}-7"
+            )
+            n -= 7
+        await context.bot.send_sticker(
+            chat_id=chat_id,
+            sticker=deadinside,
+        )
+    except Exception as e:
+        print(f"Не 1000-7 {e}")
 
 async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
@@ -213,11 +246,6 @@ async def set_daily_reminder(app: Application) -> None:
         app.job_queue.run_daily(
             callback_alarm,
             time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc)
-        )
-
-        await bot.send_message(
-            CHATS[0],
-            "Ежедневный пидор поставлен на 9 утра"
         )
     except Exception as e:
         print(f"Не удалось поставить напоминалку: {e}")
