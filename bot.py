@@ -131,11 +131,11 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if msg.sticker:
             sticker = msg.sticker
-
-            await msg.reply_sticker(
-                sticker=sticker.file_id,
-                reply_to_message_id=msg.message_id
-            )
+            #
+            # await msg.reply_sticker(
+            #     sticker=sticker.file_id,
+            #     reply_to_message_id=msg.message_id
+            # )
             print(sticker.file_id)
 
         if msg.photo:
