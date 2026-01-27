@@ -2,6 +2,9 @@ import requests
 import cloudscraper
 from bs4 import BeautifulSoup
 
+from playwright.sync_api import sync_playwright
+
+
 
 def get_response(url):
     headers = {
@@ -26,11 +29,31 @@ def get_response(url):
         }
     )
 
-    try:
-        response = scraper.get(url, headers=headers, cookies=cookies)
-        response.raise_for_status()
 
-        return response
+
+    try:
+        # response = scraper.get(url, headers=headers, cookies=cookies)
+        # response.raise_for_status()
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                viewport={'width': 1920, 'height': 1080},
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+                locale="ru-RU"
+            )
+            page = context.new_page()
+
+            page.goto("https://ru.nickfinder.com/", wait_until="networkidle", timeout=45000)
+
+            # ждём, пока Turnstile решится (обычно 3–15 сек)
+            content = page.content()
+
+            # здесь можно уже парсить soup = BeautifulSoup(content, "lxml")
+
+            browser.close()
+
+            return content
     except requests.RequestException as e:
         print(f"Ошибка запроса: {e}")
 

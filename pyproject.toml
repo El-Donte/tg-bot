@@ -7,6 +7,7 @@ dependencies = [
     "beautifulsoup4==4.14.3",
     "cloudscraper==1.2.71",
     "curl-cffi==0.14.0",
+    "playwright>=1.57.0",
     "python-dotenv>=1.2.1",
     "python-telegram-bot>=22.5",
     "python-telegram-bot[job-queue]",
