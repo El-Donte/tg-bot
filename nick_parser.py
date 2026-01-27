@@ -23,13 +23,11 @@ def get_response(url):
             'browser': 'chrome',
             'platform': 'windows',
             'mobile': False
-        },
-        cookies = cookies,
-        headers = headers,
+        }
     )
 
     try:
-        response = scraper.get(url, headers=headers)
+        response = scraper.get(url, headers=headers, cookies=cookies)
         response.raise_for_status()
 
         return response
