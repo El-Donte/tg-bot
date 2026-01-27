@@ -5,4 +5,3 @@ curl_cffi
 cloudscraper
 python-dotenv
 beautifulsoup4
-undetected-chromedriver
