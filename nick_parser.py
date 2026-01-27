@@ -68,9 +68,9 @@ def get_visible_text(soup):
     return "\n".join(lines)
 
 
-def get_nicks_for_name(name):
+async def get_nicks_for_name(name):
     url = f"https://ru.nickfinder.com/{name}"
-    response = get_response(url)
+    response = await get_response(url)
 
     soup = BeautifulSoup(response.text, "html.parser")
 

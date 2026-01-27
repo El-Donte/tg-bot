@@ -208,7 +208,7 @@ async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     chat_id = update.effective_chat.id
     name = context.args[0] if len(context.args) == 1 else ""
 
-    nicks = '\n'.join(get_nicks_for_name(name))
+    nicks = '\n'.join(await get_nicks_for_name(name))
     reply_string = f'Вот ники для имени: {name}\n\n' + nicks
 
     try:
