@@ -17,7 +17,7 @@ def get_response(url):
     cookies = {
         "cf_clearance": "твой_cf_clearance_сюда_______очень_длинный",
         "__cf_bm": "тут_тоже_если_есть",
-        # другие куки, если они есть
+        'PHPSESSID' : 'j9rcfifbouolu4isdabgtdc5oh'
     }
 
     headers = {
