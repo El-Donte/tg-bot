@@ -1,8 +1,7 @@
 import requests
 import cloudscraper
 from bs4 import BeautifulSoup
-
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 
 
 
@@ -35,7 +34,7 @@ def get_response(url):
         # response = scraper.get(url, headers=headers, cookies=cookies)
         # response.raise_for_status()
 
-        with sync_playwright() as p:
+        with async_playwright() as p:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(
                 viewport={'width': 1920, 'height': 1080},
