@@ -14,12 +14,18 @@ def get_response(url):
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/140.0.0.0 YaBrowser/25.10.0.0 Safari/537.36'
     }
 
+    cookies = {
+        'PHPSESSID' : 'b38pvn1f7rdn0ooih5jq94ft56'
+    }
+
     scraper = cloudscraper.create_scraper(
         browser={
             'browser': 'chrome',
             'platform': 'windows',
             'mobile': False
-        }
+        },
+        cookies = cookies,
+        headers = headers,
     )
 
     try:
