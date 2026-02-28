@@ -2,10 +2,11 @@ import datetime
 
 from telegram.constants import ReactionEmoji
 from telegram.ext import Application, filters, CommandHandler, ContextTypes, MessageHandler
-from telegram import Update
+from telegram import Update, ChatPermissions
 import os
 
 from nick_parser import get_nicks_for_name
+from translate import get_translation
 
 CHATS = [-1001647519223]
 
@@ -43,7 +44,8 @@ xyesosaa        = "AgACAgIAAxkBAAIBg2lvlMLVPDZVDN0SOx55HfqgeaL4AAI5EGsb7uV4SwmE4
 aboba           = "AgACAgIAAxkBAAIBhWlvlP8TrAesnzLSdKok_iVQGughAAIyEGsb7uV4Syzseq-jKlfeAQADAgADeQADOAQ"
 fisher          = "AgACAgIAAxkBAAIBhGlvlOqyFc9zn7CqeKbADL2GsWA3AAI9EGsb7uV4SwqGORgggyqRAQADAgADeQADOAQ"
 papa            = "AgACAgIAAxkBAAICq2lyS-CQXI0v7ki3JQstnkmk63iNAALnEmsbcDWRS8Gl1U1Ghw9_AQADAgADeQADOAQ"
-deadinside            = "CAACAgIAAx0CYjMl9wABAdGCaXIt25F549kFHFS0ghD0r-LXuzoAApU2AAKySBFI2a7AYscanJY4BA"
+deadinside      = "CAACAgIAAx0CYjMl9wABAdGCaXIt25F549kFHFS0ghD0r-LXuzoAApU2AAKySBFI2a7AYscanJY4BA"
+perevertish     = "AgACAgIAAxkBAAID0Wmi4hCRRkS4YIbbn792RBK3wV9VAALzEmsbMS0YSShSpWBteRTlAQADAgADeQADOgQ"
 
 triggers = {
     "@roma_kaurcev"                 : ('photo' ,tankist),
@@ -69,6 +71,8 @@ triggers = {
     "абоба"                         : ('photo', aboba),
     "рыбак"                         : ('photo', fisher),
     "папочка зол"                   : ('photo', papa),
+    "перевертышь,жигули,металлолом,кусок железа" : ('photo', perevertish),
+    "рома,ромчик"                   : ('message', "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→"),
 }
 
 send_functions = {
@@ -93,6 +97,7 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 reaction=[EMOJIS[username]],
                 is_big=False
             )
+
     except Exception as e:
         print(f"Не удалось поставить реакцию: {e}")
 
@@ -101,19 +106,17 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await deadinside_func(update, context)
             return
 
-        if "рома" in text or "ромчик" in text:
-            send_method = send_functions["message"](context.bot)
-            await send_method(chat_id, "Пошел нахуй Ромчик(@roma_kaurcev) ψ(▼へ▼メ)～→")
-
         if "я" == text:
             send_method = send_functions["message"](context.bot)
             await send_method(chat_id, "Головка от хуя  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ")
 
         for trigger, (media_type, reply) in triggers.items():
-            if trigger in text:
-                send_method = send_functions[media_type](context.bot)
-                await send_method(chat_id, reply)
-                break
+            words = trigger.split(',')
+            for word in words:
+                if word in text:
+                    send_method = send_functions[media_type](context.bot)
+                    await send_method(chat_id, reply)
+                    break
 
     except Exception as e:
         print(f"Не удалось ответить: {e}")
@@ -153,6 +156,7 @@ async def fuck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             chat_id=chat_id,
             text=f"Пошел нахуй {username_part}"
         )
+
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
@@ -165,6 +169,7 @@ async def suck_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             chat_id=chat_id,
             text=f"Соси хуй {username_part}"
         )
+
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
@@ -176,6 +181,7 @@ async def dance_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             chat_id=chat_id,
             video=dance,
         )
+
     except Exception as e:
         print(f"Не удалось отправить видеo: {e}")
 
@@ -187,6 +193,7 @@ async def deadinside_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             chat_id=chat_id,
             text="dead inside 1000-7"
         )
+
         n = 1000
         reply = ""
         while n > 0:
@@ -197,10 +204,12 @@ async def deadinside_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             chat_id=chat_id,
             text=reply
         )
+
         await context.bot.send_sticker(
             chat_id=chat_id,
             sticker=deadinside,
         )
+
     except Exception as e:
         print(f"Не 1000-7 {e}")
 
@@ -216,6 +225,7 @@ async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             chat_id=chat_id,
             text=reply_string
         )
+
     except Exception as e:
         print(f"Не удалось отправить ники: {e}")
 
@@ -240,18 +250,53 @@ async def callback_alarm(context) -> None:
             chat_id=CHATS[0],
             text="/pidor@SublimeBot"
         )
+
     except Exception as e:
         print(f"Не удалось ответить: {e}")
 
 async def set_daily_reminder(app: Application) -> None:
-    bot = app.bot
     try:
         app.job_queue.run_daily(
             callback_alarm,
             time=datetime.time(1, 00, 00, tzinfo=datetime.timezone.utc)
         )
+
     except Exception as e:
         print(f"Не удалось поставить напоминалку: {e}")
+
+async def translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    chat_id = update.effective_chat.id
+    response = get_translation(" ".join(context.args))
+
+    reply = response.json()["translations"][0]['text']
+    try:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=reply
+        )
+
+    except Exception as e:
+        print(f"Не удалось ответить: {e}")
+
+async def ban_member(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    message = update.message
+    if not message.reply_to_message:
+        return
+
+    user_id = message.reply_to_message.from_user.id
+    chat_id = update.effective_chat.id
+
+    try:
+        await context.bot.restrict_chat_member(
+            chat_id=chat_id,
+            user_id=user_id,
+            until_date=datetime.datetime.now() + datetime.timedelta(minutes=5),
+            permissions=ChatPermissions().no_permissions(),
+        )
+        await context.bot.send_message(chat_id, f"Пользователь {message.reply_to_message.from_user.first_name} забанен")
+
+    except Exception as e:
+        print(message, f"Не удалось забанить:\n{str(e)}")
 
 def main() -> None:
     token = os.getenv("BOT_TOKEN")
@@ -272,6 +317,8 @@ def main() -> None:
     app.add_handler(CommandHandler("dance", dance_func))
     app.add_handler(CommandHandler("list_words", list_words_func))
     app.add_handler(CommandHandler("nick", list_nicks))
+    app.add_handler(CommandHandler("translate", translate))
+    app.add_handler(CommandHandler("ban", ban_member))
 
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,

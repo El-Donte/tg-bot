@@ -34,8 +34,6 @@ def get_response(url):
     }
 
 
-
-
     try:
         r = requests.get(url, headers=headers, cookies=cookies, timeout=15)
         r.raise_for_status()
