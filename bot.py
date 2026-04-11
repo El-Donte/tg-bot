@@ -5,7 +5,6 @@ from telegram.ext import Application, filters, CommandHandler, ContextTypes, Mes
 from telegram import Update, ChatPermissions
 import os
 
-from nick_parser import get_nicks_for_name
 from translate import get_translation
 
 CHATS = [-1001647519223]
@@ -221,21 +220,21 @@ async def deadinside_func(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     except Exception as e:
         print(f"Не 1000-7 {e}")
 
-async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    chat_id = update.effective_chat.id
-    name = context.args[0] if len(context.args) == 1 else ""
-
-    nicks = '\n'.join(get_nicks_for_name(name))
-    reply_string = f'Вот ники для имени: {name}\n\n' + nicks
-
-    try:
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text=reply_string
-        )
-
-    except Exception as e:
-        print(f"Не удалось отправить ники: {e}")
+# async def list_nicks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+#     chat_id = update.effective_chat.id
+#     name = context.args[0] if len(context.args) == 1 else ""
+#
+#     nicks = '\n'.join(get_nicks_for_name(name))
+#     reply_string = f'Вот ники для имени: {name}\n\n' + nicks
+#
+#     try:
+#         await context.bot.send_message(
+#             chat_id=chat_id,
+#             text=reply_string
+#         )
+#
+#     except Exception as e:
+#         print(f"Не удалось отправить ники: {e}")
 
 async def list_words_func(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.effective_chat.id
@@ -324,7 +323,7 @@ def main() -> None:
     app.add_handler(CommandHandler("suck", suck_func))
     app.add_handler(CommandHandler("dance", dance_func))
     app.add_handler(CommandHandler("list_words", list_words_func))
-    app.add_handler(CommandHandler("nick", list_nicks))
+    #app.add_handler(CommandHandler("nick", list_nicks))
     app.add_handler(CommandHandler("translate", translate))
     app.add_handler(CommandHandler("ban", ban_member))
 
