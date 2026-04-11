@@ -20,7 +20,7 @@ EMOJIS = {
     "Myp3ikGay": ReactionEmoji.GHOST,
 }
 
-jaba_id         = "CgACAgQAAx0CYjMl9wABAc4HaW-bS2BtVGcLVBp81QABeDqZCXhkAAIzBAACL1C1U1BhJllLO8FJOAQ"
+jaba_id         = "CgACAgQAAx0CYjMl9wABAfzRadkf1UlWIRX2sHIdZnHQ3KAq0qIAAjMEAAIvULVTUGEmWUs7wUk7BA"
 tankist         = "AgACAgIAAxkBAAO-aWZ5E9HnkEu_15d1sFkvlr4skFkAAnwSaxttODFLEjpPniWwqSUBAAMCAAN4AAM4BA"
 absolute        = "AgACAgIAAxkBAAPLaW9FR8M_DlQbCxhQ_oRawyJPocgAAscLaxuE3YBLKWgmS1UyIn8BAAMCAAN5AAM4BA"
 outtake_lude    = "AgACAgIAAxkBAAPMaW9FdREh4Mb5y0NENUnwulLSiOYAAskLaxuE3YBLLa5e0PJq2QQBAAMCAAN5AAM4BA"
@@ -46,6 +46,7 @@ fisher          = "AgACAgIAAxkBAAIBhGlvlOqyFc9zn7CqeKbADL2GsWA3AAI9EGsb7uV4SwqGO
 papa            = "AgACAgIAAxkBAAICq2lyS-CQXI0v7ki3JQstnkmk63iNAALnEmsbcDWRS8Gl1U1Ghw9_AQADAgADeQADOAQ"
 deadinside      = "CAACAgIAAx0CYjMl9wABAdGCaXIt25F549kFHFS0ghD0r-LXuzoAApU2AAKySBFI2a7AYscanJY4BA"
 perevertish     = "AgACAgIAAxkBAAID0Wmi4hCRRkS4YIbbn792RBK3wV9VAALzEmsbMS0YSShSpWBteRTlAQADAgADeQADOgQ"
+rom_xuy         = "CgACAgIAAx0CYjMl9wABAfzeadkgbKoDITcAATaWMz1zPb2exshXAAKfWwACrzUBSXXq62mVFGzMOwQ"
 
 triggers = {
     "@roma_kaurcev"                 : ('photo' ,tankist),
@@ -97,6 +98,13 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 reaction=[EMOJIS[username]],
                 is_big=False
             )
+        if username == "roma_kaurcev":
+            await context.bot.send_animation(
+                chat_id=msg.chat_id,
+                animation=rom_xuy,
+                reply_to_message_id=msg.message_id
+            )
+
 
     except Exception as e:
         print(f"Не удалось поставить реакцию: {e}")
