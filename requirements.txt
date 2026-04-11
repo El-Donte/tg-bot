@@ -1,5 +1,5 @@
 python-telegram-bot[job-queue]
-python-telegram-bot
+python-telegram-bot>=20.8
 pyTelegramBotAPI
 requests
 curl_cffi
