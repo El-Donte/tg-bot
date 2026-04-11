@@ -1,7 +1,7 @@
 import datetime
 
 from telegram.constants import ReactionEmoji
-from telegram.ext import Application, filters, CommandHandler, ContextTypes, MessageHandler
+from telegram.ext import _jobqueue,Application, filters, CommandHandler, ContextTypes, MessageHandler
 from telegram import Update, ChatPermissions
 import os
 
