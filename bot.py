@@ -98,7 +98,7 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 is_big=False
             )
 
-        if username == "eI_donte":
+        if username == "roma_kaurcev":
             await context.bot.send_animation(
                 chat_id=msg.chat_id,
                 animation=rom_xuy,
