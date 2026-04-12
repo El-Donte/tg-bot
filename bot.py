@@ -87,9 +87,9 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.message
     text = update.message.text.lower() if update.message.text else ""
     chat_id = update.effective_chat.id
+    username = msg.from_user.username if msg.from_user.username else ""
 
     try:
-        username = msg.from_user.username if msg.from_user.username else ""
         if EMOJIS.keys().__contains__(username):
             await context.bot.set_message_reaction(
                 chat_id=msg.chat_id,
@@ -97,14 +97,13 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 reaction=[EMOJIS[username]],
                 is_big=False
             )
-        if username == "roma_kaurcev":
+
+        if username == "eI_donte":
             await context.bot.send_animation(
                 chat_id=msg.chat_id,
                 animation=rom_xuy,
                 reply_to_message_id=msg.message_id
             )
-
-
     except Exception as e:
         print(f"Не удалось поставить реакцию: {e}")
 
@@ -148,8 +147,8 @@ async def echo_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
             # )
             print(sticker.file_id)
 
-        if msg.photo:
-            print(msg.photo[-1].file_id)
+        # if msg.photo:
+        #     print(msg.photo[-1].file_id)
 
     except Exception as e:
         print(f"Не удалось ответить: {e}")
