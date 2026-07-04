@@ -98,12 +98,12 @@ async def react_on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 is_big=False
             )
 
-        if username == "roma_kaurcev":
-            await context.bot.send_animation(
-                chat_id=msg.chat_id,
-                animation=rom_xuy,
-                reply_to_message_id=msg.message_id
-            )
+        # if username == "roma_kaurcev":
+        #     await context.bot.send_animation(
+        #         chat_id=msg.chat_id,
+        #         animation=rom_xuy,
+        #         reply_to_message_id=msg.message_id
+        #     )
     except Exception as e:
         print(f"Не удалось поставить реакцию: {e}")
 
